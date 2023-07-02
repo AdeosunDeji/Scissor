@@ -15,6 +15,21 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
 
+  googlelogin(req) {
+
+    const token = this.jwtService.sign({ id: req.user.id })
+
+    if (!req.user) {
+      return 'No user from google'
+    }
+    return {
+      message: 'User info from google',
+      user: req.user,
+      token
+    }
+
+  }
+
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { username, email, password } = signUpDto
 
