@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UrlModule } from './url/url.module';
+import { QrcodeModule } from './qrcode/qrcode.module';
 
 
 

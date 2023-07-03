@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { generateRandomId } from './util/shortUrl';
 import { User } from 'src/auth/schemas/user.schema';
+import { QrcodeService } from 'src/qrcode/qrcode.service';
 
 @Injectable()
 export class UrlService {
@@ -13,10 +14,11 @@ export class UrlService {
     private urlModel: Model<Url>,
     @InjectModel(User.name)
     private userModel: Model<User>,
+    private qrCodeService: QrcodeService,
   ) { }
 
   async createshortUrl(
-    { ...createUrlDto }: CreateUrlDto,
+    { generateQRCode, ...createUrlDto }: CreateUrlDto,
     headers: any,
     userId: string) {
 
@@ -28,6 +30,7 @@ export class UrlService {
 
     const shortCode = generateRandomId(4)
     const shortUrl = `${headers.host}/url/${shortCode}`;
+    const qrCode = generateQRCode ? await this.qrCodeService.generateQrCode(shortUrl) : undefined
     const user = await this.userModel.findById(userId);
 
     const newUrl = await this.urlModel.create({
@@ -35,6 +38,7 @@ export class UrlService {
       longUrl,
       shortCode,
       shortUrl,
+      qrCode,
       userId: user._id
     })
 

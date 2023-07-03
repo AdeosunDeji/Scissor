@@ -16,4 +16,5 @@ export class CreateUrlDto {
   @IsOptional()
   readonly shortUrl: string
 
+  generateQRCode?: boolean;
 }

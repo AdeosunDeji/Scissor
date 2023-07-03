@@ -24,6 +24,10 @@ export class Url extends Document {
 
   @Prop({ type: Number, default: 0 })
   clickCount: number;
+
+  @Prop({ type: String, unique: true }) // Add this property for storing the QR code data
+  qrCode: string;
+
 }
 
 export const UrlSchema = SchemaFactory.createForClass(Url);
